@@ -4,7 +4,8 @@
   "description": "Code along tutorial, building a full stack app using NodeJS, MongoDB, Express, and integrating all the concepts learnt so far.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "Kok Hui Yuan",
