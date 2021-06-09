@@ -1,0 +1,76 @@
+<%- layout("layouts/boilerplate") %>
+
+
+    <div class="row justify-content-center align-items-center mt-5">
+        <div class="col-lg-6 my-auto">
+            <img class="img-fluid"
+                src="https://images.unsplash.com/photo-1517824806704-9040b037703b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80"
+                alt="Register Image">
+        </div>
+        <div class="col-lg-6 my-auto">
+            <div class="card shadow mb-5 mb-lg-0">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Register Account</h5>
+                    <h1 class="text-center mb-3"></h1>
+                    <form class="validate-form" action="/register" method="POST" novalidate>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" id="username" required autofocus>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" name="email" id="email"
+                                aria-describedby="emailHelp" required>
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <!-- TO IMPROVE: Bootstrap validation on simply fulfilling 8 characters -->
+                        <div class="mb-3">
+                            <label for="regPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="regPassword"
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?]).{8,}$" minLength=8 required>
+                            <div id="passwordHelp" class="form-text">
+                                Minimum length of 8 characters, including:
+                                <ul>
+                                    <small>
+                                        <li>1 uppercase
+                                            letter (A-Z)</li>
+                                    </small>
+                                    <small>
+                                        <li>1 lowercase letter (a-z)</li>
+                                    </small>
+                                    <small>
+                                        <li>1 digit (0-9)</li>
+                                    </small>
+                                    <small>
+                                        <li>1 special character(!@#$%^&*?)</li>
+                                    </small>
+                                </ul>
+                            </div>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="repeat_password"
+                                    required>
+
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="acceptTnc" required>
+                                <label class="form-check-label" for="acceptTnc">I agree to the Terms and
+                                    Conditions.</label>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success">Register</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

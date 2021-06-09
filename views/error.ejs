@@ -1,0 +1,24 @@
+<% layout('./layouts/boilerplate.ejs') %>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="alert alert-danger" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill" />
+                </svg>
+                <h4 class="alert-heading">
+                    ERROR: <%= err.statusCode %>
+                </h4>
+                <h6>
+                    <%= err.message %>
+                </h6>
+                <hr>
+                <!-- For development purpose, include stack to help identify error -->
+                <% if (process.env.NODE_ENV !=='production' ) { %>
+                    <p>For development:</p>
+                    <p>
+                        <%= err.stack %>
+                    </p>
+                    <% } %>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,34 @@
+<%- layout("layouts/boilerplate") %>
+    <div class="row justify-content-center align-items-center mt-5">
+        <div class="col-lg-6 my-auto">
+            <img class="img-fluid"
+                src="https://images.unsplash.com/photo-1476041800959-2f6bb412c8ce?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+                alt="Login Image">
+        </div>
+        <div class="col-lg-6 my-auto">
+            <div class="card shadow mb-5 mb-lg-0">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Login</h5>
+                    <form class="validate-form" action="/login" method="POST" novalidate>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" id="username" autofocus required>
+                            <div class="invalid-feedback">
+                                The username field is empty.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="password" required>
+                            <div class="invalid-feedback">
+                                The password field is empty.
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-block btn-success">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
