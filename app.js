@@ -191,7 +191,7 @@ app.use((req, res, next) => {
     req.session.returnToPath = req.originalUrl;
   }
   // Store local variables accessible to all templates
-  res.locals.currUser = req.user;
+  res.locals.currUser = req.user || null;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
