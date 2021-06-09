@@ -20,27 +20,36 @@
                     <span id="welcome-user" class="d-none d-lg-inline col-4">Welcome, <%= currUser.username %>!</span>
                     <% } %>
                         <nav class="navbar navbar-expand-xl col-4 justify-content-center">
-                            <a class="nav-link navbar-toggler dropdown-toggle" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" data-bs-target="navbarDropdown" aria-expanded="false"
-                                aria-label="Toggle navigation">
+                            <a class="nav-item navbar-toggler dropdown-toggle text-decoration-none" id="navbarDropdown"
+                                role="button" data-bs-toggle="dropdown" data-bs-target="navbarDropdown"
+                                aria-expanded="false" aria-label="Toggle navigation">
                                 Menu
                             </a>
                             <ul class="dropdown-menu collapse navbar-collapse" aria-labelledby="navbarDropdown">
                                 <% if (currUser) { %>
-                                    <li class="nav-item text-center"><span id="welcome-user"
+                                    <li class="text-center pb-2"><span id="welcome-user"
                                             class="d-lg-none text-white fs-7">Welcome, <%= currUser.username %>
                                                 !</span></li>
                                     <% } %>
-                                        <li class="nav-item"><a class="nav-link active" aria-current="page"
-                                                href="#">Home</a>
-                                        </li>
-                                        <li class="nav-item"><a class="nav-link" href="/campgrounds">Campgrounds</a>
-                                        </li>
+                                        <a class="nav-link active border-t" aria-current="page" href="#">
+                                            <li class="nav-item">Home
+                                            </li>
+                                        </a>
+                                        <a class="nav-link border-t border-lg-none" href="/campgrounds">
+                                            <li class="nav-item">Campgrounds
+                                            </li>
+                                        </a>
                                         <% if (!currUser) { %>
-                                            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                                            <a class="nav-link border-t" href="/login">
+                                                <li class="nav-item">Login</li>
+                                            </a>
+                                            <a class="nav-link border-t" href="/register">
+                                                <li class="nav-item">Register</li>
+                                            </a>
                                             <% } else { %>
-                                                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                                                <a class="nav-link border-t" href="/logout">
+                                                    <li class="nav-item">Logout</li>
+                                                </a>
                                                 <% } %>
                             </ul>
                         </nav>
