@@ -3,8 +3,8 @@ mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
   container: "cluster-map",
   style: "mapbox://styles/mapbox/light-v10",
-  center: [-103.59179687498357, 40.66995747013945],
-  zoom: 3,
+  center: [103.8198, 1.3521],
+  zoom: 10,
 });
 
 map.on("load", function () {
@@ -28,19 +28,19 @@ map.on("load", function () {
     paint: {
       // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
       // with three steps to implement three types of circles:
-      //   * Light green, 15px circles when point count is less than 10
-      //   * Darker green, 20px circles when point count is between 10 and 30
-      //   * Brown, 30px circles when point count is greater than or equal to 30
+      //   * Light green, 15px circles when point count is less than 5
+      //   * Darker green, 20px circles when point count is between 5 and 10
+      //   * Brown, 30px circles when point count is greater than or equal to 10
       "circle-color": [
         "step",
         ["get", "point_count"],
         "#A5D6A7",
-        10,
+        5,
         "#66BB6A",
-        30,
+        10,
         "#8D6E63",
       ],
-      "circle-radius": ["step", ["get", "point_count"], 15, 10, 20, 30, 30],
+      "circle-radius": ["step", ["get", "point_count"], 15, 5, 20, 10, 30],
     },
   });
 

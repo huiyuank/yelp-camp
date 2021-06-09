@@ -1,12 +1,17 @@
 const mongoose = require("mongoose");
 const Campground = require("../models/campground");
-const cities = require("./cities");
-const { descriptors, places } = require("./seedHelpers");
+const parks = require("./seedParks");
+const { descriptors } = require("./seedHelpers");
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 // * INPUT: Number of campground data to seed into Campground DB
-const num = 200;
+const num = 100;
 
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp";
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -30,9 +35,9 @@ const seedDB = async (num) => {
   await Campground.deleteMany({});
   console.log("Campground DB cleared.");
   for (let i = 0; i < num; i++) {
-    const random1000 = Math.floor(Math.random() * 1000);
+    const park = sample(parks);
     const camp = new Campground({
-      title: `${sample(descriptors)} ${sample(places)}`,
+      title: `${sample(descriptors)} ${park.location}`,
       // Unsplash API for choosing a random photo from a collection
       // For more info: https://source.unsplash.com/
       // images: "https://source.unsplash.com/collection/483251",
@@ -47,16 +52,10 @@ const seedDB = async (num) => {
       description:
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat id fugiat vero labore deleniti blanditiis quos, consectetur odio. Harum aliquid recusandae eius dolore sapiente eum, dolor quos porro ducimus quam.",
       // ** HARD-CODED TO RANDOM CITY LOCATION
-      location: `${cities[random1000].city}, ${cities[random1000].state}`,
-      geometry: {
-        type: "Point",
-        coordinates: [
-          cities[random1000].longitude,
-          cities[random1000].latitude,
-        ],
-      },
+      location: `${park.location}, Singapore`,
+      geometry: park.geometry,
       // ** HARD-CODED TO EXISTING USER_ID IN DB
-      author: "60b9cdd3bf408414e55daa77",
+      author: "60c06c31dc63bd1285f33645",
     });
     await camp.save();
   }
