@@ -110,6 +110,13 @@ map.on("load", function () {
   map.on("mouseleave", "clusters", function () {
     map.getCanvas().style.cursor = "";
   });
+
+  map.on("mouseenter", "unclustered-point", function () {
+    map.getCanvas().style.cursor = "pointer";
+  });
+  map.on("mouseleave", "unclustered-point", function () {
+    map.getCanvas().style.cursor = "";
+  });
 });
 
 map.addControl(
