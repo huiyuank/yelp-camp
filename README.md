@@ -252,6 +252,8 @@ const geoData = await geocoder
 
 #### Cluster map
 
+![Cluster_Map](https://user-images.githubusercontent.com/71057935/121508707-7a036200-ca18-11eb-91e7-894feac44ebc.jpg)
+
 The cluster map uses Mapbox GL JS' built-in cluster functions to visualize points in a circle layer as clusters. The map is configured to center and zoom to fit Singapore. Layers "clusters", "cluster-count" and "unclustered-point" are defined by filtering the campgrounds data and its layout. On clicking the clusters, the map will zoom in to its center. On clicking unclustered points, a marker will popup with text information about its title and location.
 
 #### Show page map
