@@ -4,13 +4,13 @@ Yelp Camp project is a code-along that has been adapted and modified from the Ud
 
 It has been built using
 
-- [Node.js](https://nodejs.dev/learn)
+- [Node.js](https://nodejs.dev/learn) -
 JavaScript run-time environment to write server-side scripts outside of a browser.
-- [Express](https://expressjs.com/)
+- [Express](https://expressjs.com/) -
 Framework for building web applications on top of Node.js. Simplifies the server creation process and exposes middleware to request and response objects.
-- [MongoDB](https://docs.mongodb.com/manual/)
+- [MongoDB](https://docs.mongodb.com/manual/) -
 NoSQL database for persistent data storage and tools to efficiently store and retrieve data.
-- [Mongoose](https://mongoosejs.com/docs/guide.html)
+- [Mongoose](https://mongoosejs.com/docs/guide.html) -
 Object Document Modeling (ODM) to model application data and map documents from from database into usable JavaScript objects.
 
 and styled predominantly using [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/).
@@ -87,7 +87,7 @@ Access the site here: [yelp-camp-project.herokuapp.com/](https://yelp-camp-proje
 #### POST request to '/campgrounds'
 Inserts new campground into DB upon validating and parsing user input from form data. Only authenticated users can create campground and leave a review. Refer to [Authentication](#authentication-and-authorization).
 
-### Retrieve all campground
+### Retrieve all campgrounds
 
 #### GET request to '/campgrounds'
 Find all campgrounds from DB.
@@ -211,19 +211,38 @@ In each of the middleware, we are finding the campground or review by ID to chec
 
 ### Bootstrap form validation
 
-### JavaScript regular expression
+Form data is being validated on the client-side using [Bootstrap Validation](https://getbootstrap.com/docs/5.0/forms/validation/). The validation happens either as the user is making any changes to the 
 
 ### Joi schema and validate
+
+To prevent users from putting in inconsistent format for data through Postman POST requests for example, we also have to ensure data is validated on the server-side. We use Joi schemas to define the data types and constraints on the fields that correspond to the database schema and the expected values.
 
 ## Maps
 
 ### Mapbox
 
+[Mapbox](https://docs.mapbox.com/) is a useful tool for visualising geographical locations and we use Mapbox GL JS, a JavaScript library that uses WebGL to render interactive maps from vector tiles and Mapbox styles.
+
 #### Geocoding
+
+When creating a campground, the location input is used to send to an API that Mapbox SDK makes available for [forward geocoding](https://github.com/mapbox/mapbox-sdk-js/blob/main/docs/services.md#forwardgeocode). The output is a GeoJSON format with longitude and latitude information and is stored in the campgrounds database. For simplicity, we limit the return to 1.
+
+```
+const geoData = await geocoder
+    .forwardGeocode({
+    query: req.body.campground.location,
+    limit: 1,
+    })
+    .send();
+```
 
 #### Cluster map
 
+The cluster map uses Mapbox GL JS' built-in cluster functions to visualize points in a circle layer as clusters. The map is configured to center and zoom to fit Singapore. Layers "clusters", "cluster-count" and "unclustered-point" are defined by filtering the campgrounds data and its layout. On clicking the clusters, the map will zoom in to its center. On clicking unclustered points, a marker will popup with text information about its title and location.
+
 #### Show page map
+
+The show page map puts a marker at the location of the particular campground. It also allows for user to choose different styles for the map by taking in the input and changing the style parameter of the `Map` object.
 
 ## Image Upload & Cloudinary
 
@@ -248,6 +267,8 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 ```
 
+Cloudinary account details are stored in .env file and the important fields to store as environment variables are CLOUDINARY_CLOUD_NAME, CLOUDINARY_KEY, CLOUDINARY_SECRET and CLOUDINARY_URL.
+
 #### Images in MongoDB
 
 The images object in the database stores the URL and filename to the Cloudinary, and the images are served through the CDN with the URL, or deleted using the filename.
@@ -256,18 +277,101 @@ The images object in the database stores the URL and filename to the Cloudinary,
 
 ### Mongo injection
 
+[express-mongo-sanitize](https://www.npmjs.com/package/express-mongo-sanitize) sanitizes user-supplied data to prevent MongoDB operator injection, either by replacing prohibited characters (ie. `$` and `.`) with '_' or completely removing these keys and associated data.
+
+```
+const mongoSanitize = require("express-mongo-sanitize");
+
+app.use(mongoSanitize({ replaceWith: "_" }));
+```
+
 ### Cross-site scripting (XSS)
+
+XSS works by manipulating a vulnerable web site so that it returns malicious JavaScript to users. For example, an attacker may use scripts to expose users' cookies and send it to their own server to steal information. For a primer on XSS, try this interactive game [site](http://www.xss-game.appspot.com/).
+
+Joi validation can be used to escape HTML on top of `sanitize-html`. [sanitize-html](https://www.npmjs.com/package/sanitize-html) has a validate function that detects HTML tags and throws an error if found. It is built as an extension of Joi and incorporated into Joi validation.
+
+```
+const sanitizeHtml = require("sanitize-html");
+
+const Joi = BaseJoi.extend((joi) => {
+  return {
+    type: "string",
+    base: joi.string(),
+    messages: {
+      "string.escapeHTML": "{{#label}} must not include HTML",
+    },
+    rules: {
+      escapeHTML: {
+        validate(value, helper) {
+          const clean = sanitizeHtml(value, {
+            allowedTags: [],
+            allowedAttributes: {},
+          });
+          if (clean !== value)
+            return helper.error("string.escapeHTML", { value });
+          return clean;
+        },
+      },
+    },
+  };
+});
+```
 
 ## Deployment
 
 ### Mongo Atlas
 
+Mongo Atlas can be easily set up using their GUI.
+
+1. Mongo Sign Up
+2. Create new cluster
+3. Add DB user
+4. Add network connection
+5. Connect to application
+6. Configure sessions (see below [Session store with connect-mongo](#session-store-with-connect-mongo))
+
 ### Session store with connect-mongo
 
+[connect-mongo](https://www.npmjs.com/package/connect-mongo) enables MongoDB session store.
+
+```
+const MongoStore = require('connect-mongo');
+
+app.use(session({
+  secret: 'foo',
+  store: MongoStore.create(options)
+}));
+```
+
 ### Heroku App
+
+As we are uploading code to a machine that will be serving our application, we need to download the SDK that will enable the SSH connection.
+
+1. Sign Up
+2. Download and install Heroku CLI
+3. Heroku Login - `heroku login`
+4. Initialize Git repo
+5. Heroku Create - `heroku create`
+6. Upload environment variables and turn source code production-ready
+7. Git push - `git push heroku master`
+
+Change the site link and other configurations on the settings page of Heroku dashboard.
+
+### Debugging Errors
+
+#### CD
+
+Simply `git push heroku master` to push new changes to the application.
+
+#### Looking to the logs
+
+`heroku logs --tail` will display log information from the VM that is serving the application.
 
 ## Nice-to-haves
 
 ### Populate DB with SG parks data
+
+Data set has been downloaded from [https://data.gov.sg/dataset/parks](https://data.gov.sg/dataset/parks) in GeoJSON format. The variable `cleanData()` is an Array map method that returns an array of locations with the location title and its corresponding longitude and latitude in GeoJSON format. That data is then seeded into the campgrounds DB to enable localisation of the map and locations.
 
 ### Infinite scroll on index page
