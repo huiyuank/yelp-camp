@@ -175,7 +175,9 @@ campgroundSchema.post("findOneAndDelete", async function (data) {
 
 [passport-local](http://www.passportjs.org/packages/passport-local/) is a passport strategy for authenticating with a username and password.
 
-### Registration & Login
+### Registration
+
+![Register](https://user-images.githubusercontent.com/71057935/121510550-57724880-ca1a-11eb-85b7-5d63dce692bf.jpg)
 
 Once we plugin Passport-Local Mongoose into the User schema and configured Passport Local, we can simply use the `register()` method that has been exposed to the User model. It accepts the user object and password literal as arguments, and adds hash and salt field to store the hashed password and the salt value.
 
@@ -187,6 +189,10 @@ const User = new Schema({});
 User.plugin(passportLocalMongoose);
 ```
 
+### Login
+
+![Login](https://user-images.githubusercontent.com/71057935/121509964-bbe0d800-ca19-11eb-855a-03e0bf5b84b2.jpg)
+
 Authenticating requests is as simple as calling `passport.authenticate()` and specifying the strategy to employ. 
 
 ```
@@ -197,6 +203,8 @@ passport.authenticate("local", {
 ```
 
 In this application, we have set the url for redirect to be '/login' and flash for failure to true. If authentication fails, Passport will respond with a 401 Unauthorized status, and any additional route handlers will not be invoked. 
+
+![AuthenticationFail](https://user-images.githubusercontent.com/71057935/121510013-c8653080-ca19-11eb-8175-c658813905eb.jpg)
 
 Upon successful registration and login, the user ID will be stored in the session for preservation of authentication state. In the `isLoggedIn()` middleware, we are using the `isAuthenticated()` method on request to check if the user is authenticated. The `isLoggedIn()` middleware can then be attached to routes that we want to make sure only authenticated users can access. If they are unathenticated, they will be redirected to login upon hitting these routes.
 
@@ -211,6 +219,8 @@ module.exports.isLoggedIn = (req, res, next) => {
 };
 ```
 
+![Authentication](https://user-images.githubusercontent.com/71057935/121509988-c3a07c80-ca19-11eb-994e-c3759d62ea68.jpg)
+
 ### Logout
 
 Logout easily with a single command `req.logout()`.
@@ -221,11 +231,17 @@ After users are authenticated, there may be an additional layer of protection fo
 
 In each of the middleware, we are finding the campground or review by ID to check if the user is the same as the owner of the asset using the user ID stored in session. The middlewares are attached to routes that we want to make sure only authorized users can access.
 
+![Authorization1](https://user-images.githubusercontent.com/71057935/121510084-dc109700-ca19-11eb-806d-c734956c1110.jpg)
+
+![Authorization2](https://user-images.githubusercontent.com/71057935/121510091-de72f100-ca19-11eb-826d-7942a9b79701.jpg)
+
 ## Validation
 
 ### Bootstrap form validation
 
 Form data is being validated on the client-side using [Bootstrap Validation](https://getbootstrap.com/docs/5.0/forms/validation/). The validation happens as the user submits the form or is making any changes to the input fields when the form had been submitted. JavaScript prevents the submission of form if invalid data is detected.
+
+![Validation](https://user-images.githubusercontent.com/71057935/121510237-ffd3dd00-ca19-11eb-873d-047479244550.jpg)
 
 ### Joi schema and validate
 
@@ -258,7 +274,11 @@ The cluster map uses Mapbox GL JS' built-in cluster functions to visualize point
 
 #### Show page map
 
+![Show_Map](https://user-images.githubusercontent.com/71057935/121510138-e92d8600-ca19-11eb-90bb-e6303fe6cc3d.jpg)
+
 The show page map puts a marker at the location of the particular campground. It also allows for user to choose different styles for the map by taking in the input and changing the style parameter of the `Map` object.
+
+![Show_Map2](https://user-images.githubusercontent.com/71057935/121510160-ecc10d00-ca19-11eb-92b6-c2a0f4de8a43.jpg)
 
 ## Image Upload & Cloudinary
 
@@ -340,11 +360,15 @@ const Joi = BaseJoi.extend((joi) => {
 
 Mongo Atlas can be easily set up using their GUI.
 
-1. Mongo Sign Up
+1. Mongo sign up
 2. Create new cluster
+![MongoDB_Cluster_Info](https://user-images.githubusercontent.com/71057935/121511071-dc5d6200-ca1a-11eb-9cd2-d2173131479c.jpg)
 3. Add DB user
+![MongoDB_User_Info](https://user-images.githubusercontent.com/71057935/121511240-03b42f00-ca1b-11eb-8cc9-bd58e368f5dd.jpg)
 4. Add network connection
+![MongoDB_Network_Info_LI](https://user-images.githubusercontent.com/71057935/121511224-fdbe4e00-ca1a-11eb-8b67-ded8a872ada3.jpg)
 5. Connect to application
+![MongoDB_Connect_Info](https://user-images.githubusercontent.com/71057935/121511269-09aa1000-ca1b-11eb-99a1-3e757b9d28c2.jpg)
 6. Configure sessions (see below [Session store with connect-mongo](#session-store-with-connect-mongo))
 
 ### Session store with connect-mongo
@@ -364,15 +388,18 @@ app.use(session({
 
 As we are uploading code to a machine that will be serving our application, we need to download the SDK that will enable the SSH connection.
 
-1. Sign Up
+1. Heroku sign up
 2. Download and install Heroku CLI
+![Heroku_CLI](https://user-images.githubusercontent.com/71057935/121511427-3100dd00-ca1b-11eb-81c8-e3f72e417545.jpg)
 3. Heroku Login - `heroku login`
+![Heroku_Login](https://user-images.githubusercontent.com/71057935/121511400-29d9cf00-ca1b-11eb-9b03-a0fa903c1bf4.jpg)
 4. Initialize Git repo
 5. Heroku Create - `heroku create`
 6. Upload environment variables and turn source code production-ready
 7. Git push - `git push heroku master`
 
 Change the site link and other configurations on the settings page of Heroku dashboard.
+![Heroku_ConfigVars](https://user-images.githubusercontent.com/71057935/121511374-21819400-ca1b-11eb-93af-86ebe74c4557.jpg)
 
 ### Debugging Errors
 
