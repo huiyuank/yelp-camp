@@ -1,5 +1,7 @@
 # [Yelp Camp Project](https://yelp-camp-project.herokuapp.com/)
 
+Access the site here: [yelp-camp-project.herokuapp.com/](https://yelp-camp-project.herokuapp.com/). Refer to [Deployment](#deployment) section for more on deployment.
+
 Yelp Camp project is a code-along that has been adapted and modified from the Udemy course "Web Developer Bootcamp 2021" by Colt Steele. Detailed below the key features, learning points and deployment details.
 
 It has been built using
@@ -14,10 +16,6 @@ NoSQL database for persistent data storage and tools to efficiently store and re
 Object Document Modeling (ODM) to model application data and map documents from from database into usable JavaScript objects.
 
 and styled predominantly using [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/).
-
-## Interface
-
-Access the site here: [yelp-camp-project.herokuapp.com/](https://yelp-camp-project.herokuapp.com/). Refer to [Deployment](#deployment) section for more on deployment.
 
 ## Folder Directory
 
@@ -151,7 +149,23 @@ When adding a review, not only do we need to create the review object to add int
 
 ### Delete campground and reviews associated to it
 
-When deleting a campground, the reviews on it will no longer be useful. Hence, we will have to clear it out from the database to optimise storage. It is done by defining a post delete middleware in Mongoose for the campground schema. Upon the execution of `findOneAndDelete()`, it will be caught and the campground to be deleted is passed through the middleware for finding and deleting the reviews by ID that are associated to it.
+When deleting a campground, the reviews on it will no longer be useful. Hence, we will have to clear it out from the database to optimise storage. It is done by defining a post delete middleware in Mongoose for the campground schema. Upon the execution of `findOneAndDelete()`, it will be caught and the campground to be deleted is passed through the middleware for finding and deleting the reviews by ID as well as the photos by filename, that are associated to it.
+
+```
+// Catch the deleted campground and delete all reviews associated to it
+campgroundSchema.post("findOneAndDelete", async function (data) {
+  if (data) {
+    await Review.deleteMany({
+      _id: {
+        $in: data.reviews,
+      },
+    });
+    data.images.map(async (img) => {
+      await cloudinary.uploader.destroy(img.filename);
+    });
+  }
+});
+```
 
 ## Authentication & Authorization
 
@@ -211,7 +225,7 @@ In each of the middleware, we are finding the campground or review by ID to chec
 
 ### Bootstrap form validation
 
-Form data is being validated on the client-side using [Bootstrap Validation](https://getbootstrap.com/docs/5.0/forms/validation/). The validation happens either as the user is making any changes to the 
+Form data is being validated on the client-side using [Bootstrap Validation](https://getbootstrap.com/docs/5.0/forms/validation/). The validation happens as the user submits the form or is making any changes to the input fields when the form had been submitted. JavaScript prevents the submission of form if invalid data is detected.
 
 ### Joi schema and validate
 
@@ -277,7 +291,7 @@ The images object in the database stores the URL and filename to the Cloudinary,
 
 ### Mongo injection
 
-[express-mongo-sanitize](https://www.npmjs.com/package/express-mongo-sanitize) sanitizes user-supplied data to prevent MongoDB operator injection, either by replacing prohibited characters (ie. `$` and `.`) with '_' or completely removing these keys and associated data.
+[express-mongo-sanitize](https://www.npmjs.com/package/express-mongo-sanitize) sanitizes user-supplied data to prevent MongoDB operator injection, either by replacing prohibited characters (ie. `$` and `.`) with '`_`' or completely removing these keys and associated data.
 
 ```
 const mongoSanitize = require("express-mongo-sanitize");
@@ -362,7 +376,7 @@ Change the site link and other configurations on the settings page of Heroku das
 
 #### CD
 
-Simply `git push heroku master` to push new changes to the application.
+`git push heroku master` on the remote repo to push new changes to the application.
 
 #### Looking to the logs
 
