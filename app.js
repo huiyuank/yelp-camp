@@ -160,7 +160,9 @@ const connectSrcUrls = [
   "https://b.tiles.mapbox.com/",
   "https://events.mapbox.com/",
 ];
-const fontSrcUrls = [];
+const fontSrcUrls = [
+  "https://cdn.jsdelivr.net",
+];
 app.use(
   helmet.contentSecurityPolicy({
     directives: {

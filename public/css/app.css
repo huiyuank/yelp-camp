@@ -9,3 +9,11 @@
 #welcome-user {
   font-weight: 500;
 }
+
+#githubIcon {
+  transition: color 300ms;
+}
+
+#githubIcon:hover {
+  color: rgba(250, 250, 250, 0.9) !important;
+}
