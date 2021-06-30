@@ -23,6 +23,8 @@ const {
   isCampgroundAuthor,
 } = require("../middleware");
 
+// GET /campgrounds/page-:number
+// Handles infinite scroll requests for campgrounds to append
 router.route('/page-:number').get(catchAsync(campgrounds.index))
 
 router

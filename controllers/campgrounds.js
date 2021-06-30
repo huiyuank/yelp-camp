@@ -16,12 +16,10 @@ module.exports.index = async (req, res, next) => {
   let leftbound = (pageno - 1) * 10
   let rightbound = (pageno - 1) * 10 + 10
   const campgrounds = await Campground.find({});
-  console.log(leftbound, rightbound)
   if (leftbound < campgrounds.length) {
     return res.render("campgrounds/index", { campgrounds, leftbound, rightbound });
   } else {
-    const endOfContent = true;
-    return res.render("campgrounds/index", { campgrounds, endOfContent });
+    return res.sendStatus(204)
   }
 };
 
