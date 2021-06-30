@@ -12,8 +12,17 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 
 module.exports.index = async (req, res, next) => {
+  const {number:pageno=1} = req.params;
+  let leftbound = (pageno - 1) * 10
+  let rightbound = (pageno - 1) * 10 + 10
   const campgrounds = await Campground.find({});
-  res.render("campgrounds/index", { campgrounds });
+  console.log(leftbound, rightbound)
+  if (leftbound < campgrounds.length) {
+    return res.render("campgrounds/index", { campgrounds, leftbound, rightbound });
+  } else {
+    const endOfContent = true;
+    return res.render("campgrounds/index", { campgrounds, endOfContent });
+  }
 };
 
 module.exports.renderNewForm = (req, res) => {

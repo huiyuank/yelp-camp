@@ -1,9 +1,9 @@
 <% layout('./layouts/boilerplate.ejs') %>
     <div id="cluster-map" class="w-100" style="height: 500px"></div>
     <h1 class="text-center display-4 py-4 mb-4 border-bottom">All Campgrounds</h1>
-    <div class="container-fluid">
-        <% campgrounds.map((campground)=> { %>
-            <div class="card mb-3">
+    <div class="container-fluid infinite-scroll-container">
+        <% campgrounds.slice(leftbound, rightbound).map((campground)=> { %>
+            <div class="card mb-3 infinite-card">
                 <div class="row">
                     <div class="col-md-4 my-auto">
                         <img class="img-fluid" src=<%=campground.images.length? campground.images[0].url
@@ -41,3 +41,5 @@
         const campgrounds = { features: <%- JSON.stringify(campgrounds) %>}
     </script>
     <script src="/js/clusterMap.js"></script>
+    <script src="/js/infinite-scroll.pkgd.min.js"></script>
+    <script src="/js/infinite-scroll.js"></script>

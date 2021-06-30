@@ -23,6 +23,8 @@ const {
   isCampgroundAuthor,
 } = require("../middleware");
 
+router.route('/page-:number').get(catchAsync(campgrounds.index))
+
 router
   .route("/")
   // GET /campgrounds
