@@ -6,7 +6,7 @@
 }
 
 .loader-ellips {
-  font-size: 2rem; /* change size here */
+  font-size: 1.5rem; /* change size here */
   position: relative;
   width: 4em;
   height: 1em;
@@ -18,7 +18,7 @@
   width: 1em;
   height: 1em;
   border-radius: 0.5em;
-  background: rgb(45,45,45); /* change color here */
+  background: rgb(60, 60, 60); /* change color here */
   position: absolute;
   animation-duration: 0.5s;
   animation-timing-function: ease;
@@ -29,16 +29,26 @@
 .loader-ellips__dot:nth-child(2) {
   left: 0;
 }
-.loader-ellips__dot:nth-child(3) { left: 1.5em; }
-.loader-ellips__dot:nth-child(4) { left: 3em; }
+.loader-ellips__dot:nth-child(3) {
+  left: 1.5em;
+}
+.loader-ellips__dot:nth-child(4) {
+  left: 3em;
+}
 
 @keyframes reveal {
-  from { transform: scale(0.001); }
-  to { transform: scale(1); }
+  from {
+    transform: scale(0.001);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 @keyframes slide {
-  to { transform: translateX(1.5em) }
+  to {
+    transform: translateX(1.5em);
+  }
 }
 
 .loader-ellips__dot:nth-child(1) {
