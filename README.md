@@ -413,8 +413,41 @@ Change the site link and other configurations on the settings page of Heroku das
 
 ## Nice-to-haves
 
+- [x] [Populate DB with SG parks data](#populate-db-with-sg-parks-data)
+- [x] [Infinite scroll on index page](#infinite-scroll-on-index-page)
+- [ ] [Average rating for campgrounds](#infinite-scroll-on-index-page)
+- [ ] [Search, filter and sort campgrounds](#search-filter-and-sort-campgrounds)
+
 ### Populate DB with SG parks data
 
 Data set has been downloaded from [https://data.gov.sg/dataset/parks](https://data.gov.sg/dataset/parks) in GeoJSON format. The variable `cleanData()` is an Array map method that returns an array of locations with the location title and its corresponding longitude and latitude in GeoJSON format. That data is then seeded into the campgrounds DB to enable localisation of the map and locations.
 
 ### Infinite scroll on index page
+
+The infinite scrolling behaviour has been implemented using the [Infinite Scroll](https://infinite-scroll.com/) library.
+
+With the Infinite Scroll .js file included, initialize the infiniteScroll on the container element that holds the many children elements as such:
+
+```
+let ele = document.querySelector('.infinite-scroll-container');
+let infScroll = new InfiniteScroll( ele, {
+  // options
+  path: 'campgrounds/path-{{#}}',
+  append: '.infinite-card',
+  history: false,
+  status: '.page-load-status'
+});
+```
+##### Options
+
+* `path` is a required variable that specifies the URL to the next page to fetch more data to append to the container. Set to string with {{#}} for incremental page number. 
+* `append` specifies the elements that are selected from loaded page to be appended to the container.
+* To have a better user experience, use `status` option to display status elements indicating state of page loading. Status elements include `.infinite-scroll-request`, `.infinite-scroll-error` and `.infinite-scroll-last`.
+
+For more information about options, read on the [documentation](https://infinite-scroll.com/options.html).
+
+![Infinite Scroll](https://user-images.githubusercontent.com/71057935/124302937-6325da80-db94-11eb-8b40-a19403aae172.gif)
+
+### Average rating for campgrounds
+
+### Search, filter and sort campgrounds
