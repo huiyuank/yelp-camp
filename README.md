@@ -415,7 +415,7 @@ Change the site link and other configurations on the settings page of Heroku das
 
 - [x] [Populate DB with SG parks data](#populate-db-with-sg-parks-data)
 - [x] [Infinite scroll on index page](#infinite-scroll-on-index-page)
-- [ ] [Average rating for campgrounds](#infinite-scroll-on-index-page)
+- [ ] [Average rating for campgrounds](#average-rating-for-campgrounds)
 - [ ] [Search, filter and sort campgrounds](#search-filter-and-sort-campgrounds)
 
 ### Populate DB with SG parks data
