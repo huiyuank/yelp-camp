@@ -8,10 +8,10 @@
                 <h4 class="alert-heading">
                     ERROR: <%= err.statusCode %>
                 </h4>
+                <hr>
                 <h6>
                     <%= err.message %>
                 </h6>
-                <hr>
                 <!-- For development purpose, include stack to help identify error -->
                 <% if (process.env.NODE_ENV !=='production' ) { %>
                     <p>For development:</p>

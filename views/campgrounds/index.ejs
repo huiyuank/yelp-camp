@@ -20,6 +20,13 @@
                             <p class="card-text">
                                 <%= campground.description %>
                             </p>
+                            <p class="card-text text-muted">
+                                <% if (campground.reviews.length) { %>
+                                 <%= +((campground.reviews.reduce((total, review)=>total+review.rating, 0)/campground.reviews.length).toFixed(2)) %> (<%= campground.reviews.length %> reviews)  
+                                <% } else { %>
+                                No reviews
+                                    <% } %>
+                            </p>
                             <p class="card-text fw-light">
                                 <small class="text-muted">
                                     <%= campground.location %>
