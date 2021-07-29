@@ -15,7 +15,7 @@ module.exports.index = async (req, res, next) => {
   const {number:pageno=1} = req.params;
   let leftbound = (pageno - 1) * 10
   let rightbound = (pageno - 1) * 10 + 10
-  const campgrounds = await Campground.find({});
+  const campgrounds = await Campground.find({}).populate({path:"reviews"});
   if (leftbound < campgrounds.length) {
     return res.render("campgrounds/index", { campgrounds, leftbound, rightbound });
   } else {
