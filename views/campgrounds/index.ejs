@@ -1,5 +1,6 @@
 <% layout('./layouts/boilerplate.ejs') %>
 <link rel="stylesheet" type="text/css" href="/css/index.css" />
+<link rel="stylesheet" type="text/css" href="/css/starability-coinFlip.css" />
     <div id="cluster-map" class="w-100" style="height: 500px"></div>
     <h1 class="text-center display-4 py-4 mb-4 border-bottom">All Campgrounds</h1>
     <div class="container-fluid infinite-scroll-container">
@@ -19,14 +20,15 @@
                             </h5></a>
                             <p class="card-text">
                                 <%= campground.description %>
-                            </p>
-                            <p class="card-text text-muted">
+                            </p>                            
                                 <% if (campground.reviews.length) { %>
-                                 <%= +((campground.reviews.reduce((total, review)=>total+review.rating, 0)/campground.reviews.length).toFixed(2)) %> (<%= campground.reviews.length %> reviews)  
+                                <p class="starability-result mb-1" data-rating="<%= Math.floor(campground.reviews.reduce((total, review)=>total+review.rating, 0)/campground.reviews.length) %>"></p>
+                                <p class="card-text text-muted">(<%= campground.reviews.length %> reviews)</p>
                                 <% } else { %>
-                                No reviews
+                                    <p class="card-text text-muted">
+                                        No reviews
+                                    </p>
                                     <% } %>
-                            </p>
                             <p class="card-text fw-light">
                                 <small class="text-muted">
                                     <%= campground.location %>
